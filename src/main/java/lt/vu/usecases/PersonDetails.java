@@ -6,6 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
@@ -140,8 +141,12 @@ public class PersonDetails implements Serializable {
 
         try {
             personDAO.update(person);
+            personDAO.forceUpdate();
         } catch(OptimisticLockException ex) {
             pushMessage("Another user is editing this person.");
+            return null;
+        } catch (PersistenceException ex) {
+            pushMessage("Failed saving to db.");
             return null;
         }
 

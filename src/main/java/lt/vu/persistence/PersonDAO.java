@@ -32,9 +32,8 @@ public class PersonDAO {
             .getResultList();
     }
 
-    public List<Person> findWithCorona() {
-        return em.createNamedQuery("Person.findWithCorona", Person.class)
-            .getResultList();
+    public void forceUpdate() {
+        em.flush();
     }
 
     public Person update(Person person){

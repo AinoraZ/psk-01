@@ -12,6 +12,7 @@ import lt.vu.mybatis.model.CoronaCase;
 import lt.vu.mybatis.model.Location;
 import lt.vu.mybatis.model.Person;
 import lt.vu.mybatis.model.PersonLocation;
+import org.apache.ibatis.exceptions.PersistenceException;
 
 
 import javax.annotation.PostConstruct;
@@ -155,6 +156,9 @@ public class PersonDetailsMyBatis implements Serializable {
             personMapper.updateByPrimaryKey(person);
         } catch(OptimisticLockException ex) {
             pushMessage("Another user is editing this person.");
+            return null;
+        } catch(PersistenceException ex) {
+            pushMessage("Failed saving to db.");
             return null;
         }
 
