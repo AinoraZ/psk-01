@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+    <nav>
+        <h:link outcome="index" value="Home"/>
+        <h:link outcome="cities" value="City viewer"/>
+        <h:link value="ORM" outcome="locations?cityId=#{locationsInCityMyBatis.city.id}"/>
+    </nav>
+    <h:messages class="errors" globalOnly="true" />
+    <h2>Locations in city #{locationsInCityMyBatis.city.name}:</h2>
+    <table>
+        <tr>
+            <th>Street</th>
+            <th>Name</th>
+            <th>Lat</th>
+            <th>Long</th>
+        </tr>
+        <c:if test="#{locationsInCityMyBatis.city.locations.size() == 0}">
+            <tr>
+                <td colspan="5">No data</td>
+            </tr>
+        </c:if>
+        <ui:repeat value="#{locationsInCityMyBatis.city.locations}" var="location">
+            <tr>
+                <td>#{location.street}</td>
+                <td>#{location.name}</td>
+                <td>#{location.latitude}</td>
+                <td>#{location.longitude}</td>
+            </tr>
+        </ui:repeat>
+    </table>
+    <h:form>
+        <label>Street: <h:inputText a:placeholder="Gustaičio g. 5" value="#{locationsInCityMyBatis.locationToCreate.street}" required="true" /></label><br/>
+        <label>Location name: <h:inputText a:placeholder="Vero Cafe" value="#{locationsInCityMyBatis.locationToCreate.name}" required="true" /></label><br/>
+        <label>Latitude: <h:inputText a:placeholder="54.1245" value="#{locationsInCityMyBatis.locationToCreate.latitude}" required="true" /></label><br/>
+        <label>Longitude: <h:inputText a:placeholder="27.1456" value="#{locationsInCityMyBatis.locationToCreate.longitude}" required="true" /></label><br/>
+
+        <h:commandButton value="Add location" action="#{locationsInCityMyBatis.createLocation}" >
+            <f:param name="cityId" value="#{locationsInCityMyBatis.city.id}" />
+        </h:commandButton>
+    </h:form>
+    <h2>Sightings in city:</h2>
+    <table>
+        <tr>
+            <th>Fullname</th>
+            <th>Has Corona?</th>
+        </tr>
+        <c:if test="#{peopleSightingsInCity.cityPeople.size() == 0}">
+            <tr>
+                <td colspan="2">No data</td>
+            </tr>
+        </c:if>
+        <ui:repeat value="#{peopleSightingsInCity.cityPeople}" var="person">
+            <tr>
+                <td><h:link value="#{person.name.charAt(0)}. #{person.surname}" outcome="personDetails?personId=#{person.id}"/></td>
+                <td>#{person.hasCorona() ? "Yes" : "No"}</td>
+            </tr>
+        </ui:repeat>
+    </table>
+</h:body>
+</html>

@@ -1,0 +1,10 @@
+<datasources>
+    <datasource jndi-name="CoronaDataSource" pool-name="CoronaDataSource">
+        <driver>h2</driver>
+        <connection-url>jdbc:h2:~/h2database/CoronaDB;AUTO_SERVER=TRUE</connection-url>
+        <security>
+            <user-name>sa</user-name>
+            <password>sa</password>
+        </security>
+    </datasource>
+</datasources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="lt.vu.mybatis.model.City" alias="City"/>
+        <typeAlias type="lt.vu.mybatis.model.CoronaCase" alias="CoronaCase"/>
+        <typeAlias type="lt.vu.mybatis.model.Location" alias="Location"/>
+        <typeAlias type="lt.vu.mybatis.model.Person" alias="Person"/>
+        <typeAlias type="lt.vu.mybatis.model.PersonLocation" alias="PersonLocation"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="MANAGED"/>
+            <dataSource type="JNDI">
+                <property name="data_source" value="CoronaDataSource"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis.xml/CityMapper.xml"/>
+        <mapper resource="mybatis.xml/CoronaCaseMapper.xml"/>
+        <mapper resource="mybatis.xml/LocationMapper.xml"/>
+        <mapper resource="mybatis.xml/PersonMapper.xml"/>
+        <mapper resource="mybatis.xml/PersonLocationMapper.xml"/>
+    </mappers>
+</configuration>

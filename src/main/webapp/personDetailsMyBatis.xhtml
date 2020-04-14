@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+<h:head>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+    <nav>
+        <h:link outcome="index" value="Home"/>
+        <h:link outcome="cities" value="City viewer"/>
+        <h:link value="ORM" outcome="personDetails?personId=#{personDetailsMyBatis.person.id}"/>
+    </nav>
+    <h:messages class="errors" globalOnly="true" />
+    <h2>#{personDetailsMyBatis.person.name.charAt(0)}. #{personDetailsMyBatis.person.surname}: #{personDetailsMyBatis.person.hasCorona() ? "Infected" : "Healthy"}</h2>
+    <h:form>
+        <label>Corona case date:
+            <h:inputText value="#{personDetailsMyBatis.coronaToAdd.dateDiscovered}" a:placeholder="2020/04/13"
+                         converterMessage="Please provide corona discovery date in yyyy/mm/dd format">
+                <f:convertDateTime type="date" pattern="yyyy/mm/dd" />
+            </h:inputText>
+        </label><br/>
+        <h:commandButton value="Update" action="#{personDetailsMyBatis.logCoronaOnPerson}">
+            <f:param name="personId" value="#{personDetailsMyBatis.person.id}" />
+        </h:commandButton>
+    </h:form>
+    <h3>Edit person details:</h3>
+    <h:form>
+        <label>Name: <h:inputText value="#{personDetailsMyBatis.update_name}" a:placeholder="#{personDetailsMyBatis.person.name.charAt(0)}"/></label><br/>
+        <label>Surname: <h:inputText value="#{personDetailsMyBatis.update_surname}" a:placeholder="#{personDetailsMyBatis.person.surname}"/></label><br/>
+        <label>Email: <h:inputText value="#{personDetailsMyBatis.update_email}" a:placeholder="#{personDetailsMyBatis.email_hint}"/></label><br/>
+        <h:commandButton value="Update person" action="#{personDetailsMyBatis.updatePerson}">
+            <f:param name="personId" value="#{personDetails.person.id}" />
+        </h:commandButton>
+    </h:form>
+    <h3>Locations visited:</h3>
+    <table>
+        <tr>
+            <th>Street</th>
+            <th>Name</th>
+            <th>Lat</th>
+            <th>Long</th>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+        <c:if test="#{personDetailsMyBatis.person.locations.size() == 0}">
+            <tr>
+                <td colspan="6">No data</td>
+            </tr>
+        </c:if>
+        <ui:repeat value="#{personDetailsMyBatis.person.locations}" var="location">
+            <tr>
+                <td>#{location.location.street}</td>
+                <td>#{location.location.name}</td>
+                <td>#{location.location.latitude}</td>
+                <td>#{location.location.longitude}</td>
+                <td>#{location.location.city.name}</td>
+                <td>#{location.location.city.country}</td>
+            </tr>
+        </ui:repeat>
+    </table>
+    <h2>Location adder:</h2>
+    <h:form>
+        <label>Location:
+            <h:selectOneMenu value="#{personDetailsMyBatis.location_id}">
+                <f:selectItems value="#{personDetailsMyBatis.allLocations}"
+                               var="tempLocation"
+                               itemValue="#{tempLocation.id}"
+                               itemLabel="#{tempLocation.name}, #{tempLocation.street}"/>
+            </h:selectOneMenu>
+        </label><br/>
+        <label>Date visited:
+            <h:inputText value="#{personDetailsMyBatis.personLocationToAdd.dateVisited}" a:placeholder="2020/04/13"
+                         converterMessage="Please provide visit date in yyyy/mm/dd format">
+                <f:convertDateTime type="date" pattern="yyyy/mm/dd" />
+            </h:inputText>
+        </label><br/>
+        <h:commandButton value="Update" action="#{personDetailsMyBatis.addPersonLocation}">
+            <f:param name="personId" value="#{personDetailsMyBatis.person.id}" />
+        </h:commandButton>
+    </h:form>
+</h:body>
+</html>
