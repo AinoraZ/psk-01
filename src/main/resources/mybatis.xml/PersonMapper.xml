@@ -103,9 +103,9 @@
       ci.country as city_country,
       ci.name as city_name
         FROM PUBLIC.PERSON_LOCATION pl
-        JOIN PUBLIC.PERSON p on p.id = pl.person_id
-        JOIN PUBLIC.LOCATION l on l.id = pl.location_id
-        JOIN PUBLIC.CORONA_CASE c on c.person_id = p.id
+        RIGHT JOIN PUBLIC.PERSON p on p.id = pl.person_id
+        LEFT JOIN PUBLIC.LOCATION l on l.id = pl.location_id
+        LEFT JOIN PUBLIC.CORONA_CASE c on c.person_id = p.id
         JOIN PUBLIC.CITY ci on ci.id = l.city_id
             WHERE p.id = #{id,jdbcType=INTEGER}
   </select>
@@ -136,10 +136,10 @@
       ci.id as city_id,
       ci.country as city_country,
       ci.name as city_name
-          FROM PUBLIC.PERSON_LOCATION pl
-          JOIN PUBLIC.PERSON p on p.id = pl.person_id
-          JOIN PUBLIC.LOCATION l on l.id = pl.location_id
-          JOIN PUBLIC.CORONA_CASE c on c.person_id = p.id
-          JOIN PUBLIC.CITY ci on ci.id = l.city_id
+        FROM PUBLIC.PERSON_LOCATION pl
+        RIGHT JOIN PUBLIC.PERSON p on p.id = pl.person_id
+        LEFT JOIN PUBLIC.LOCATION l on l.id = pl.location_id
+        LEFT JOIN PUBLIC.CORONA_CASE c on c.person_id = p.id
+        JOIN PUBLIC.CITY ci on ci.id = l.city_id
   </select>
 </mapper>

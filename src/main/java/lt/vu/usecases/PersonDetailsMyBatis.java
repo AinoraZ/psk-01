@@ -141,7 +141,7 @@ public class PersonDetailsMyBatis implements Serializable {
             needs_update = true;
         }
 
-        if (update_email != null && !update_email.isBlank() && !update_email.contains("@")){ //TODO: Check email format
+        if (update_email != null && !update_email.isBlank() && update_email.contains("@")){ //TODO: Check email format
             person.setEmail(update_email);
             needs_update = true;
         }
