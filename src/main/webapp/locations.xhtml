@@ -23,6 +23,7 @@
             <th>Name</th>
             <th>Lat</th>
             <th>Long</th>
+            <th>Infected People</th>
         </tr>
         <c:if test="#{locationsInCity.city.locations.size() == 0}">
             <tr>
@@ -35,6 +36,7 @@
                 <td>#{location.name}</td>
                 <td>#{location.latitude}</td>
                 <td>#{location.longitude}</td>
+                <td>#{locationsInCity.getInfectedPeopleInLocation(location).size()}</td>
             </tr>
         </ui:repeat>
     </table>

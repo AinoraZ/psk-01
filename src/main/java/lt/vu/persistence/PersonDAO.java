@@ -32,6 +32,12 @@ public class PersonDAO {
             .getResultList();
     }
 
+    public List<Person> findInfectedByLocation(Integer location_id) {
+        return em.createNamedQuery("Person.findInfectedByLocation", Person.class)
+            .setParameter("location_id", location_id)
+            .getResultList();
+    }
+
     public void forceUpdate() {
         em.flush();
     }

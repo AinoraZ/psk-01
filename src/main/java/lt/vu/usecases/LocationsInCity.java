@@ -6,15 +6,18 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
 import lt.vu.entities.City;
 import lt.vu.entities.Location;
+import lt.vu.entities.Person;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.CityDAO;
 import lt.vu.persistence.LocationDAO;
+import lt.vu.persistence.PersonDAO;
 
 
 @Model
@@ -24,6 +27,9 @@ public class LocationsInCity implements Serializable {
 
     @Inject
     private LocationDAO locationDAO;
+
+    @Inject
+    private PersonDAO personDAO;
 
     @Getter @Setter
     private City city;
@@ -46,5 +52,9 @@ public class LocationsInCity implements Serializable {
         locationToCreate.setCity(city);
         locationDAO.persist(locationToCreate);
         return "locations?faces-redirect=true&cityId=" + this.city.getId();
+    }
+
+    public List<Person> getInfectedPeopleInLocation(Location location) {
+        return personDAO.findInfectedByLocation(location.getId());
     }
 }

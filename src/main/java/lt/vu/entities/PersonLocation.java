@@ -35,13 +35,13 @@ public class PersonLocation implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonLocation personLocation = (PersonLocation) o;
-        return Objects.equals(id, personLocation.id) &&
+        return Objects.equals(location, personLocation.location) &&
                 Objects.equals(person, personLocation.person) &&
                 Objects.equals(dateVisited, personLocation.dateVisited);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateVisited);
+        return Objects.hash(location, person, dateVisited);
     }
 }

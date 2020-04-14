@@ -14,7 +14,10 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Person.findAll", query = "select a from Person as a"),
         @NamedQuery(name = "Person.findWithCorona", query = "select person from Person as person left join person.coronaCase as corona where corona is not null"),
-        @NamedQuery(name = "Person.findByCity", query = "select distinct person from Person as person left join person.locations as personLocation where personLocation.location.city.id = :city_id")
+        @NamedQuery(name = "Person.findByCity", query = "select distinct person from Person as person left join person.locations as personLocation where personLocation.location.city.id = :city_id"),
+        @NamedQuery(name = "Person.findInfectedByLocation", query = "select distinct person from Person as person " +
+                "left join person.coronaCase as corona left join person.locations as personLocation " +
+                "where personLocation.location.id = :location_id AND corona is not null")
 })
 @Table(name = "PERSON")
 @Getter

@@ -17,7 +17,7 @@
     <h2>Cities:</h2>
     <ol>
         <ui:repeat value="#{cities.allCities}" var="city">
-            <li><h:link value="#{city.name}, #{city.country}" outcome="locationsMyBatis?cityId=#{city.id}"/></li>
+            <li><h:link value="#{city.name}, #{city.country}" outcome="locations?cityId=#{city.id}"/></li>
         </ui:repeat>
     </ol>
     <h:form>
