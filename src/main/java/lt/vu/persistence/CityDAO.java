@@ -20,12 +20,6 @@ public class CityDAO {
         return em.find(City.class, id);
     }
 
-    public City findOneByName(String name){
-        return em.createNamedQuery("City.findByName", City.class)
-            .setParameter("city_name", name)
-            .getSingleResult();
-    }
-
     public List<City> loadAll() {
         return em.createNamedQuery("City.findAll", City.class)
             .getResultList();
