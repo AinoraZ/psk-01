@@ -15,12 +15,4 @@ public class PersonLocationDAO {
     public void persist(PersonLocation personLocation){
         this.em.persist(personLocation);
     }
-
-    public void findOne(Integer id){
-        this.em.find(PersonLocation.class, id);
-    }
-
-    public void delete(PersonLocation personLocation){
-        this.em.remove(personLocation);
-    }
 }
