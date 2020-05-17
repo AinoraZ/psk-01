@@ -25,8 +25,10 @@ public class Location implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(columnDefinition="Decimal(9,6)")
     private BigDecimal latitude;
 
+    @Column(columnDefinition="Decimal(9,6)")
     private BigDecimal longitude;
 
     @Size(max = 50)
@@ -38,6 +40,10 @@ public class Location implements Serializable {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @Version
+    @Column(name = "optimistic_lock_ver")
+    private Integer version;
 
     @OneToMany(mappedBy = "location")
     private List<PersonLocation> people = new ArrayList<>();

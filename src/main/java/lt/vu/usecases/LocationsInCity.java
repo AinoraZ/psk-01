@@ -1,6 +1,7 @@
 package lt.vu.usecases;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import lt.vu.persistence.PersonDAO;
 
 
 @Model
+@RequestScoped
 public class LocationsInCity implements Serializable {
     @Inject
     private CityDAO cityDAO;

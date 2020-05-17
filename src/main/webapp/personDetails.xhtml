@@ -20,7 +20,7 @@
     <h2>#{personDetails.person.name.charAt(0)}. #{personDetails.person.surname}: #{personDetails.person.hasCorona() ? "Infected" : "Healthy"}</h2>
     <h:form>
         <label>Corona case date:
-            <h:inputText value="#{personDetails.coronaToAdd.dateDiscovered}" a:placeholder="2020/04/13"
+            <h:inputText required="true" value="#{personDetails.coronaToAdd.dateDiscovered}" a:placeholder="2020/04/13"
                          converterMessage="Please provide corona discovery date in yyyy/mm/dd format">
                 <f:convertDateTime type="date" pattern="yyyy/mm/dd" />
             </h:inputText>
@@ -29,6 +29,10 @@
             <f:param name="personId" value="#{personDetails.person.id}" />
         </h:commandButton>
     </h:form>
+    <c:if test="#{emailAffected.getEmailingServiceStatus(personDetails.person.id) != null}">
+        Mailing status: #{emailAffected.getEmailingServiceStatus(personDetails.person.id)}
+    </c:if>
+
     <h3>Edit person details:</h3>
     <h:form>
         <label>Name: <h:inputText value="#{personDetails.update_name}" a:placeholder="#{personDetails.person.name.charAt(0)}"/></label><br/>

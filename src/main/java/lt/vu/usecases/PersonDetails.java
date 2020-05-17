@@ -1,6 +1,7 @@
 package lt.vu.usecases;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -32,6 +33,9 @@ public class PersonDetails implements Serializable {
 
     @Inject
     private PersonLocationDAO personLocationDAO;
+
+    @Inject
+    private EmailAffected emailAffected;
 
     @Getter @Setter
     private Person person;
@@ -108,6 +112,8 @@ public class PersonDetails implements Serializable {
             pushMessage("Cannot set date to future");
             return null;
         }
+
+        emailAffected.sendEmail(this.person.getId());
 
         coronaToAdd.setPerson(this.person);
         coronaCaseDAO.persist(coronaToAdd);
