@@ -8,5 +8,12 @@
 
     <interceptors>
         <class>lt.vu.interceptors.MethodLogger</class>
+        <class>lt.vu.interceptors.ExceptionAPIMiddleware</class>
     </interceptors>
+    <alternatives>
+        <!--<class>lt.vu.services.HotmailEmailingService</class>-->
+    </alternatives>
+    <decorators>
+        <class>lt.vu.services.EmailLoggingDecorator</class>
+    </decorators>
 </beans>

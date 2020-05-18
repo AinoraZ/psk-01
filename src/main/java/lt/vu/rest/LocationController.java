@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response;
 
 import lt.vu.entities.City;
 import lt.vu.entities.Location;
+import lt.vu.interceptors.CaughtInvocation;
+import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.CityDAO;
 import lt.vu.persistence.LocationDAO;
 import lt.vu.rest.contracts.LocationDTO;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Path("/location")
+@LoggedInvocation
 public class LocationController {
     @Inject
     @Setter @Getter
@@ -39,7 +42,6 @@ public class LocationController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
         List<Location> locations = locationDAO.loadAll();
-
         List<LocationDTO> locationsDto = locations.stream()
                 .map((LocationDTO::new))
                 .collect(Collectors.toList());

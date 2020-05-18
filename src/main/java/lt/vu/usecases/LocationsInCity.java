@@ -15,6 +15,7 @@ import lombok.Setter;
 import lt.vu.entities.City;
 import lt.vu.entities.Location;
 import lt.vu.entities.Person;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.CityDAO;
 import lt.vu.persistence.LocationDAO;
@@ -50,12 +51,14 @@ public class LocationsInCity implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String createLocation() {
         locationToCreate.setCity(city);
         locationDAO.persist(locationToCreate);
         return "locations?faces-redirect=true&cityId=" + this.city.getId();
     }
 
+    @CaughtInvocation
     public List<Person> getInfectedPeopleInLocation(Location location) {
         return personDAO.findInfectedByLocation(location.getId());
     }

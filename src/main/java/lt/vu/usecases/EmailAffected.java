@@ -1,10 +1,12 @@
 package lt.vu.usecases;
 
+import lombok.Getter;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.services.EmailingService;
+import lt.vu.services.EmailingServiceImpl;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 @SessionScoped
 @Named
 public class EmailAffected implements Serializable {
-    @Inject
+    @Inject @Getter
     EmailingService emailingService;
     private Map<Integer, CompletableFuture<Integer>> emailingServiceTasks = new HashMap<>();
 

@@ -3,6 +3,7 @@ package lt.vu.usecases;
 import lombok.Getter;
 import lombok.Setter;
 import lt.vu.entities.City;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.persistence.CityDAO;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ public class Cities {
     }
 
     @Transactional
+    @CaughtInvocation
     public String createCity(){
         this.cityDAO.persist(cityToCreate);
         return "index?faces-redirect=true";

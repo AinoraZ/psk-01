@@ -1,7 +1,6 @@
 package lt.vu.usecases;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,9 +15,12 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lt.vu.entities.*;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.*;
+import lt.vu.services.EmailFormatChecker;
 
 @Model
 public class PersonDetails implements Serializable {
@@ -36,6 +38,9 @@ public class PersonDetails implements Serializable {
 
     @Inject
     private EmailAffected emailAffected;
+
+    @Inject
+    EmailFormatChecker emailChecker;
 
     @Getter @Setter
     private Person person;
@@ -77,11 +82,18 @@ public class PersonDetails implements Serializable {
 
     private String censorEmail(String email) {
         String[] split = email.split("@");
+        if(split.length != 2)
+            return "";
+
+        if (split[0].length() < 1 || split[1].length() < 1)
+            return "";
+
         return split[0].charAt(0) + "***" + split[0].charAt(split[0].length() - 1) + "@" + split[1];
     }
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String addPersonLocation() {
         if (this.personLocationToAdd.getDateVisited().compareTo(new Date()) > 0){
             pushMessage("Cannot set date to future");
@@ -100,8 +112,10 @@ public class PersonDetails implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null));
     }
 
+    @SneakyThrows
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String logCoronaOnPerson() {
         if (this.person.hasCorona()) {
             pushMessage("This person already has corona");
@@ -109,8 +123,7 @@ public class PersonDetails implements Serializable {
         }
 
         if (this.coronaToAdd.getDateDiscovered().compareTo(new Date()) > 0){
-            pushMessage("Cannot set date to future");
-            return null;
+            throw new Exception("Cannot set date to future");
         }
 
         emailAffected.sendEmail(this.person.getId());
@@ -123,6 +136,7 @@ public class PersonDetails implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String updatePerson() {
         boolean needs_update = false;
         if (update_name != null && !update_name.isBlank()){
@@ -135,7 +149,7 @@ public class PersonDetails implements Serializable {
             needs_update = true;
         }
 
-        if (update_email != null && !update_email.isBlank() && update_email.contains("@")){ //TODO: Check email format
+        if (emailChecker.isValid(update_email)){
             person.setEmail(update_email);
             needs_update = true;
         }

@@ -2,6 +2,7 @@ package lt.vu.usecases;
 
 import lombok.Getter;
 import lombok.Setter;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.mybatis.dao.CityMapper;
 import lt.vu.mybatis.dao.LocationMapper;
@@ -42,6 +43,7 @@ public class LocationsInCityMyBatis implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String createLocation() {
         locationToCreate.setCityId(city.getId());
         locationMapper.insert(locationToCreate);

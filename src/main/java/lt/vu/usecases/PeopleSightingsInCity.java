@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lt.vu.entities.City;
 import lt.vu.entities.Person;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.CityDAO;
 import lt.vu.persistence.PersonDAO;

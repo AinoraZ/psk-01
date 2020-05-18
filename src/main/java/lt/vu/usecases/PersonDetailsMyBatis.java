@@ -3,6 +3,7 @@ package lt.vu.usecases;
 import lombok.Getter;
 import lombok.Setter;
 
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.mybatis.dao.CoronaCaseMapper;
 import lt.vu.mybatis.dao.LocationMapper;
@@ -86,6 +87,7 @@ public class PersonDetailsMyBatis implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String addPersonLocation() {
         if (this.personLocationToAdd.getDateVisited().compareTo(new Date()) > 0){
             pushMessage("Cannot set date to future");
@@ -111,6 +113,7 @@ public class PersonDetailsMyBatis implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String logCoronaOnPerson() {
         if (this.person.hasCorona()) {
             pushMessage("This person already has corona");
@@ -130,6 +133,7 @@ public class PersonDetailsMyBatis implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String updatePerson() {
         boolean needs_update = false;
         if (update_name != null && !update_name.isBlank()){

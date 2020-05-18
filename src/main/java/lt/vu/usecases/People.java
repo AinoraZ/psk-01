@@ -14,15 +14,20 @@ import lombok.Getter;
 import lombok.Setter;
 import lt.vu.entities.City;
 import lt.vu.entities.Person;
+import lt.vu.interceptors.CaughtInvocation;
 import lt.vu.interceptors.LoggedInvocation;
 import lt.vu.persistence.CityDAO;
 import lt.vu.persistence.PersonDAO;
+import lt.vu.services.EmailFormatChecker;
 
 
 @Model
 public class People implements Serializable {
     @Inject
     private PersonDAO personDAO;
+
+    @Inject
+    EmailFormatChecker emailChecker;
 
     @Getter @Setter
     private Person personToAdd = new Person();
@@ -41,13 +46,14 @@ public class People implements Serializable {
 
     @Transactional
     @LoggedInvocation
+    @CaughtInvocation
     public String createPerson() {
         if (personToAdd.getName().isBlank() || personToAdd.getSurname().isBlank()) {
             pushMessage("Name and/or surname must not be blank");
             return null;
         }
 
-        if (personToAdd.getEmail().isBlank() || !personToAdd.getEmail().contains("@")){ //TODO: Check email format
+        if (!emailChecker.isValid(personToAdd.getEmail())){
             pushMessage("Email must have valid formatting");
             return null;
         }
