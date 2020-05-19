@@ -13,7 +13,7 @@
     <nav>
         <h:link outcome="index" value="Home"/>
         <h:link outcome="cities" value="City viewer"/>
-        <h:link value="MyBatis" outcome="locationsMyBatis?cityId=#{locationsInCity.city.id}"/>
+<!--        <h:link value="MyBatis" outcome="locationsMyBatis?cityId=#{locationsInCity.city.id}"/>-->
     </nav>
     <h:messages class="errors" globalOnly="true" />
     <h2>Locations in city #{locationsInCity.city.name}:</h2>
@@ -27,7 +27,7 @@
         </tr>
         <c:if test="#{locationsInCity.city.locations.size() == 0}">
             <tr>
-                <td colspan="4">No data</td>
+                <td colspan="5">No data</td>
             </tr>
         </c:if>
         <ui:repeat value="#{locationsInCity.city.locations}" var="location">

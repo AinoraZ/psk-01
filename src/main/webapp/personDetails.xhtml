@@ -14,7 +14,7 @@
     <nav>
         <h:link outcome="index" value="Home"/>
         <h:link outcome="cities" value="City viewer"/>
-        <h:link value="MyBatis" outcome="personDetailsMyBatis?personId=#{personDetails.person.id}"/>
+<!--        <h:link value="MyBatis" outcome="personDetailsMyBatis?personId=#{personDetails.person.id}"/>-->
     </nav>
     <h:messages class="errors" globalOnly="true" />
     <h2>#{personDetails.person.name.charAt(0)}. #{personDetails.person.surname}: #{personDetails.person.hasCorona() ? "Infected" : "Healthy"}</h2>

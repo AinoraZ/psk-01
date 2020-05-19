@@ -32,6 +32,6 @@ public class Cities {
     @CaughtInvocation
     public String createCity(){
         this.cityDAO.persist(cityToCreate);
-        return "index?faces-redirect=true";
+        return "cities?faces-redirect=true";
     }
 }
